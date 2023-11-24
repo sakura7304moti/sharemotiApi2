@@ -1,3 +1,6 @@
+"""
+日本国失礼憲法のルーティング
+"""
 import json
 from flask import Blueprint, request, jsonify
 import sys
@@ -13,9 +16,6 @@ app = Blueprint('mannerList',__name__)
 # mannerListの初期設定
 mannerList.init()
 
-"""
-MannerList 日本国失礼憲法
-"""
 @app.route("/mannerList/search", methods=["POST"])
 def mannerList_search():
     json_data = request.json  # POSTメソッドで受け取ったJSONデータを取得

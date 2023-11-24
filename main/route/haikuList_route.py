@@ -1,3 +1,6 @@
+"""
+俳句一覧のルーティング
+"""
 import json
 from flask import Blueprint, request, jsonify
 import sys
@@ -13,9 +16,7 @@ app = Blueprint('haikuList',__name__)
 # haikuListの初期設定
 haikuList.init()
 
-"""
-HaikuList 王将マン俳句コンテスト
-"""
+
 @app.route("/haikuList/search",methods=["POST"])
 def haikuList_search():
     json_data = request.json  # POSTメソッドで受け取ったJSONデータを取得

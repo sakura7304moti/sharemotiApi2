@@ -1,3 +1,6 @@
+"""
+学校一覧のルーティング
+"""
 import json
 from flask import Blueprint, request, jsonify
 import sys
@@ -13,9 +16,6 @@ app = Blueprint('schoolList',__name__)
 # schoolListの初期設定
 schoolList.init()
 
-"""
-SchoolList 学校一覧
-"""
 @app.route("/schoolList/search", methods=["POST"])
 def schoolList_search():
     json_data = request.json  # POSTメソッドで受け取ったJSONデータを取得

@@ -1,3 +1,6 @@
+"""
+あだ名一覧のルーティング
+"""
 import json
 from flask import Blueprint, request, jsonify
 import sys
@@ -13,9 +16,6 @@ app = Blueprint('nameList',__name__)
 # nameListの初期設定
 nameList.init()
 
-"""
-nameList あだ名一覧
-"""
 @app.route("/nameList/search", methods=["POST"])
 def namelist_search():
     json_data = request.json  # POSTメソッドで受け取ったJSONデータを取得

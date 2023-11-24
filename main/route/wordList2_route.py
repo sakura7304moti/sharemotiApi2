@@ -1,3 +1,6 @@
+"""
+名言集2のルーティング
+"""
 import json
 from flask import Blueprint, request, jsonify
 import sys
@@ -13,9 +16,6 @@ app = Blueprint('wordList2',__name__)
 # wordList2の初期設定
 wordList2.init()
 
-"""
-WordList2 名言集2
-"""
 @app.route("/wordList2/search", methods=["POST"])
 def wordlist2_search():
     json_data = request.json  # POSTメソッドで受け取ったJSONデータを取得

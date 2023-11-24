@@ -1,3 +1,6 @@
+"""
+焼き直し条約のルーティング
+"""
 import json
 from flask import Blueprint, request, jsonify
 import sys
@@ -13,9 +16,6 @@ app = Blueprint('yakiList',__name__)
 # yakiListの初期設定
 yakiList.init()
 
-"""
-YakiList 焼き直し条約
-"""
 @app.route("/yakiList/search", methods=["POST"])
 def yakiList_search():
     json_data = request.json  # POSTメソッドで受け取ったJSONデータを取得

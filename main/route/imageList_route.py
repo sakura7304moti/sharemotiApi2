@@ -1,3 +1,6 @@
+"""
+画像一覧のルーティング
+"""
 import datetime
 import json
 import os
@@ -30,9 +33,6 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-"""
-画像一覧のエンドポイント
-"""
 @app.route('/imageList/insert',methods=['POST'])
 def imagelist_insert():
     json_data = request.json
@@ -76,11 +76,9 @@ def imagelist_upload():
         formatted_datetime = now.strftime("%Y%m%d%H%M%S")
         save_file_name = formatted_datetime + '.' + ext
         
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], save_file_name))
-        #file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        file.save(os.path.join(UPLOAD_FOLDER, save_file_name))
         
         jsondata = {"fileName":save_file_name}
-        #jsondata = {"fileName":filename}
         response = jsonify(jsondata)
         return response
         
@@ -90,7 +88,7 @@ def imagelist_download():
     file_name = request.args.get('fileName')
     ext = request.args.get('ext')
     
-    path = os.path.join(app.config['UPLOAD_FOLDER'],file_name+'.'+ext)
+    path = os.path.join(UPLOAD_FOLDER,file_name+'.'+ext)
     print(f'download path -> {path}')
     return send_file(path, mimetype='image/jpeg')
 
