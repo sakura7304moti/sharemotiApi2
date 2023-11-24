@@ -41,11 +41,13 @@ class UrlOption:
         self.cover = yml['cover']
         self.ori = yml['ori']
 
+# `Database` クラスには、Twitter データベース ファイルへのパスを返すメソッド `twitter_path` があります。
 class Database:
     def twitter_path(self) -> str:
         return os.path.join(_base_path,'database','twitter.db')
     
-#Record interface
+
+# HoloName クラスは、ハッシュタグと URL のペアを表します。
 class HoloName:
     def __init__(self,hashtag,url):
         self.hashtag = hashtag
@@ -54,6 +56,7 @@ class HoloName:
     def __dict__(self):
         return {"hashtag":self.hashtag,"url":self.url}
     
+# `TwitterQueryRecord` クラスは、ハッシュタグ、モード、URL、日付、画像、ユーザー ID、ユーザー名、いいね数などの情報を含む Twitter クエリのレコードを表します。
 class TwitterQueryRecord:
     hashtag: str
     mode: str
@@ -108,6 +111,7 @@ class TwitterQueryRecord:
             "likeCount": self.likeCount,
         }
     
+# `SongQueryRecord` クラスは、日付、メンバー、リンク、曲名、その他の詳細を含む曲クエリのレコードを表します。
 class SongQueryRecord:
     date:str
     member:str
@@ -147,6 +151,7 @@ class SongQueryRecord:
             "detail":self.detail
         }
     
+# `HoloSongAlbum` クラスは、アルバム名、アーティスト、プレイリスト リンク、日付、画像リンクなどのプロパティを持つ曲アルバムを表します。
 class HoloSongAlbum:
     albumName:str
     artist:str

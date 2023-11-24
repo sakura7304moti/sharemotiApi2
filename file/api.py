@@ -11,6 +11,7 @@ from route import karaokeList_route
 from route import radioList_route
 from route import ssbuList_route
 from route import voiceList_route
+from route import support_route
 
 """
 Flask run
@@ -25,6 +26,7 @@ app.register_blueprint(karaokeList_route.app)
 app.register_blueprint(radioList_route.app)
 app.register_blueprint(ssbuList_route.app)
 app.register_blueprint(voiceList_route.app)
+app.register_blueprint(support_route.app)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=False, port=2000)
