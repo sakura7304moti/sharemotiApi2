@@ -52,17 +52,7 @@ def img_dir():
 
 """
 Record interface
-"""
-
-
-class WordListRecord:  # 名言集
-    def __init__(self, word: str, desc: str):
-        self.word = word
-        self.desc = desc
-
-    def __dict__(self):
-        return {"word": self.word, "desc": self.desc}
-    
+""" 
 class WordList2Record:  # 名言集2
     def __init__(self, word: str, desc: str,createAt:str,updateAt:str):
         self.word = word
@@ -158,62 +148,6 @@ class ImageListStatusResult:#画像の追加結果
     
     def __dict__(self):
         return {"success":self.success,"errorText":self.errorText}
-    
-class KaraokeListRecord:#カラオケ音声の一覧
-    def __init__(self,
-                 id:int,
-                 file_name:str,
-                 date:str):
-        self.id = id
-        self.file_name = file_name
-        self.date = date
-        
-    def __dict__(self):
-        return {"id":self.id,"fileName":self.file_name,"date":self.date}
-    def __str__(self):
-        return f"ID: {self.id}, File Name: {self.file_name}, Date: {self.date}"
-
-class VoiceListRecord:#ボイス
-    def __init__(self,
-                 id:int,
-                 file_name:str):
-        self.id = id
-        self.file_name = file_name
-        
-    def __dict__(self):
-        return {"id":self.id,"fileName":self.file_name}
-    def __str__(self):
-        return f"ID: {self.id}, File Name: {self.file_name}"
-    
-class RadioListRecord:#ラジオの一覧
-    def __init__(self,
-                 id:int,
-                 file_name:str,
-                 date:str):
-        self.id = id
-        self.file_name = file_name
-        self.date = date
-        
-    def __dict__(self):
-        return {"id":self.id,"fileName":self.file_name,"date":self.date}
-    def __str__(self):
-        return f"ID: {self.id}, File Name: {self.file_name}, Date: {self.date}"
-    
-class ssbuListRecord:#スマブラのクリップ
-    def __init__(self,
-                 id:int,
-                 file_name:str,
-                 date:str,
-                 year:str):
-        self.id = id
-        self.file_name = file_name
-        self.date = date
-        self.year = year
-        
-    def __dict__(self):
-        return {"id":self.id,"fileName":self.file_name,"date":self.date,"year":self.year}
-    def __str__(self):
-        return f"ID: {self.id}, File Name: {self.file_name}, Date: {self.date}, Year: {self.year}"
     
 class SsbuNameRecord:#スマブラのキャラ名と画像URL
     def __init__(self,name:str,url:str):
