@@ -17,7 +17,6 @@ def get_new_line_text() -> str:
 
 # dataのパス
 def get_data_path() -> str:
-    print(os.path.join(_base_path,'data'))
     return os.path.join(_base_path,'data')
 
 """
