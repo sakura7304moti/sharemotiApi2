@@ -9,7 +9,7 @@ import re
 urlModel = scraper_const.UrlOption()
 cover_url = urlModel.cover
 
-def get_cover_songs():
+def get_cover_songs() -> list[scraper_const.SongQueryRecord]:
     records = []
 
     # 指定したURLからHTMLを取得
@@ -39,7 +39,7 @@ def get_cover_songs():
         records.append(rec)
     return records
 
-def get_original_songs():
+def get_original_songs() -> list[scraper_const.SongQueryRecord]:
     records = []
     response = requests.get('https://seesaawiki.jp/hololivetv/d/%a5%aa%a5%ea%a5%b8%a5%ca%a5%eb%a5%bd%a5%f3%a5%b0')
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -59,4 +59,32 @@ def get_original_songs():
             youtube_url = youtube_link[0]['href']
             rec = scraper_const.SongQueryRecord(release_date,members,youtube_url,title,'')
             records.append(rec)
+    return records
+
+def get_memory_movies() -> list[scraper_const.HoloMemoryRecord]:
+    url = 'https://seesaawiki.jp/hololivetv/d/%b5%ad%c7%b0%c7%db%bf%ae%b0%ec%cd%f7'
+    
+    # 指定したURLからHTMLを取得
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser') 
+    table_element = soup.find(id="table_edit_1 content_block_11")
+    tr_elements = table_element.find("tbody").find_all("tr")
+
+    records = []
+    # trループ
+    for tr in tr_elements:
+        td_elements = tr.find_all("td")
+        #各要素を取得
+        td_date = td_elements[0].get_text().replace('/','-')
+        td_member = td_elements[1].get_text()
+        td_link = ''
+        td_memory = td_elements[3].get_text()
+        td_detail = td_elements[4].get_text()
+        a_tag = td_elements[2].find("a")
+        if a_tag is not None:
+            td_link = a_tag.get("href")
+            td_title = a_tag.get_text().replace('"','').replace("'",'')
+            if '非公開' not  in td_title:
+                rec = scraper_const.HoloMemoryRecord(td_title,td_member,td_date,td_link,td_memory,td_detail)
+                records.append(rec)
     return records

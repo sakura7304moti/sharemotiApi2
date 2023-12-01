@@ -177,3 +177,32 @@ class HoloSongAlbum:
     
     def __str__(self):
         return f"Album Name: {self.albumName}\nArtist: {self.artist}\nPlaylist Link: {self.playlistLink}\nDate: {self.date}\nImage Link: {self.imageLink}"
+    
+class HoloMemoryRecord:
+    title: str
+    member: str
+    date: str
+    link:str
+    memory: str
+    detail: str
+
+    def __init__(self, title: str, member: str, date: str, link:str, memory: str, detail: str):
+        self.title = title
+        self.member = member
+        self.link = link
+        self.date = date
+        self.memory = memory
+        self.detail = detail
+
+    def __dict__(self):
+        return {
+            "title": self.title,
+            "member": self.member,
+            "link":self.link,
+            "date": self.date,
+            "memory": self.memory,
+            "detail": self.detail
+        }
+
+    def __str__(self):
+        return f"{self.title} - {self.member} - {self.link} - {self.date} - {self.memory} - {self.detail}"
