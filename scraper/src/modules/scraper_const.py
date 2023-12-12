@@ -2,6 +2,7 @@ import datetime
 import os
 import pandas as pd
 import yaml
+from typing import List
 # プロジェクトの相対パス
 _base_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -33,6 +34,15 @@ def _url() -> dict:
     with open(yaml_path) as file:
         yml = yaml.safe_load(file)
     return yml
+
+#youtube チャンネル一覧
+def channel_list():
+    path = os.path.join(_base_path,'options','channel_list.csv')
+    df = pd.read_csv(path)
+    return df['0'].tolist()
+
+def archive_dict_path():
+    return os.path.join(_base_path,'options','archive_dict.json')
 
 #URLまとめ
 class UrlOption:
@@ -206,3 +216,70 @@ class HoloMemoryRecord:
 
     def __str__(self):
         return f"{self.title} - {self.member} - {self.link} - {self.date} - {self.memory} - {self.detail}"
+
+class ChannelInfo:
+    def __init__(self,channel_name,description,header_url,avatar_url):
+        self.channel_name = channel_name
+        self.description = description
+        self.header_url = header_url
+        self.avatar_url = avatar_url
+        
+    def __str__(self):
+        return f"""channel_name -> {self.channel_name}
+header_url -> {self.header_url}
+avatar_url -> {self.avatar_url}
+---- description -----
+{self.description}
+        """
+    
+    def __dict__(self):
+        return {
+            "channelName":self.channel_name,
+            "description":self.description,
+            "headerUrl":self.header_url,
+            "avatarUrl":self.avatar_url
+        }
+
+
+class MovieInfo:
+    def __init__(self,index,id,url,title,view_count,thumbnail_url):
+        self.index = index
+        self.id = id
+        self.url = url
+        self.title = title
+        self.view_count = view_count
+        self.thumbnail_url = thumbnail_url
+
+    def __str__(self):
+        return f"""index -> {str(self.index).zfill(4)}
+if -> {self.id}
+url -> {self.url}
+title -> {self.title}
+view_count -> {self.view_count}
+thumbnail_url -> {self.thumbnail_url}"""
+    
+    def __dict__(self):
+        return {
+            "index":self.index,
+            "id":self.id,
+            "url":self.url,
+            "title":self.title,
+            "viewCount":self.view_count,
+            "thumbnailUrl":self.thumbnail_url
+        }
+    
+    
+class Archive:
+    def __init__(self,channel:ChannelInfo,movie:List[MovieInfo],live:List[MovieInfo],short:List[MovieInfo]):
+        self.channel = channel
+        self.movie = movie
+        self.live = live
+        self.short = short
+
+    def __dict__(self):
+        return {
+            "channel": self.channel.__dict__(),
+            "movie": [m.__dict__() for m in self.movie],
+            "live": [l.__dict__() for l in self.live],
+            "short": [s.__dict__() for s in self.short]
+        }

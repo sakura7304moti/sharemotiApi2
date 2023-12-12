@@ -27,6 +27,7 @@ from file.src import support_route
 from scraper.src import twitter_route
 from scraper.src import holosong_route
 from scraper.src import holomovie_route
+from scraper.src import holoarchive_route
 
 """
 Flask run
@@ -55,6 +56,7 @@ app.register_blueprint(support_route.app)
 app.register_blueprint(twitter_route.app)
 app.register_blueprint(holosong_route.app)
 app.register_blueprint(holomovie_route.app)
+app.register_blueprint(holoarchive_route.app)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=False)
