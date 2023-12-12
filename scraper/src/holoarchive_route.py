@@ -42,7 +42,7 @@ def holochannel():
     # レスポンスとしてJSONデータを返す
     # JSON文字列に変換
     json_data = json.dumps(result, ensure_ascii=False)
-    json_data = json_data.replace('"[{', "[{").replace('}]"', "}]")
+    json_data = json_data.replace('"[{', "[{").replace('}]"', "}]").replace('"[', "[").replace(']"', "]")
     
     #改行文字だけ残してバックスラッシュは削除
     json_data = json_data.replace('\\n',NEW_LINE_TEXT)
