@@ -248,11 +248,12 @@ avatar_url -> {self.avatar_url}
 
 
 class MovieInfo:
-    def __init__(self,id,url,title,date,view_count,thumbnail_url,movie_type):
+    def __init__(self,id,url,title,date,channel_id,view_count,thumbnail_url,movie_type):
         self.id = id
         self.url = url
         self.title = title
         self.date = date
+        self.channel_id = channel_id
         self.view_count = view_count
         self.thumbnail_url = thumbnail_url
         self.movie_type = movie_type
@@ -262,6 +263,7 @@ class MovieInfo:
 url -> {self.url}
 title -> {self.title}
 date -> {self.date}
+channel_id -> {self.channel_id}
 view_count -> {self.view_count}
 thumbnail_url -> {self.thumbnail_url}
 movieType -> {self.movie_type}"""
@@ -272,6 +274,7 @@ movieType -> {self.movie_type}"""
             "url":self.url,
             "title":self.title,
             "date":self.date,
+            "channel_id":self.channel_id,
             "viewCount":self.view_count,
             "thumbnailUrl":self.thumbnail_url,
             "movieType":self.movie_type

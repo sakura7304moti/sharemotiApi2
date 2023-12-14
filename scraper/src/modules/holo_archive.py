@@ -81,7 +81,7 @@ def get_movie_list(entries):
     for rec in entries:
         info = get_movie_info(rec)
         if info is not None:
-            movie_info = scraper_const.MovieInfo(info[0],info[1],info[2],'',info[3],info[4],'')
+            movie_info = scraper_const.MovieInfo(info[0],info[1],info[2],'','',info[3],info[4],'')
             movie_list.append(movie_info)
     return movie_list
 
@@ -123,7 +123,17 @@ def get_upload_date(url:str):
     with ydl:
         result = ydl.extract_info(url, download=False)
         stamp = result['release_timestamp']
-        return str(datetime.datetime.fromtimestamp(stamp))
+        if stamp is None:
+            stamp = result['upload_date']
+            # yyyymmdd形式の文字列をdatetimeオブジェクトに変換
+            dt = datetime.datetime.strptime(stamp, '%Y%m%d')
+        
+            # yyyy-mm-dd形式の文字列に変換
+            stamp = dt.strftime('%Y-%m-%d')
+            return stamp
+        else:
+            return str(datetime.datetime.fromtimestamp(stamp))
+        
 
 def holo_archives() -> List[scraper_const.Archive]:
     archives = []
@@ -137,6 +147,7 @@ def update_archives():
     archives = holo_archives()
 
     #追加前にレコード取得
+    make_database()
     movies = search_movie()
     channels = search_channel()
 
@@ -168,7 +179,6 @@ def update_archives():
                     movie.title,
                     movie.view_count,
                     movie.thumbnail_url,
-                    'movie'
                 )
             else:
                 upload_date = get_upload_date(movie.url)
@@ -177,6 +187,7 @@ def update_archives():
                     movie.url,
                     movie.title,
                     upload_date,
+                    archive.channel.channel_id,
                     movie.view_count,
                     movie.thumbnail_url,
                     'movie'
@@ -190,7 +201,6 @@ def update_archives():
                     movie.title,
                     movie.view_count,
                     movie.thumbnail_url,
-                    'short'
                 )
             else:
                 upload_date = get_upload_date(movie.url)
@@ -199,6 +209,7 @@ def update_archives():
                     movie.url,
                     movie.title,
                     upload_date,
+                    archive.channel.channel_id,
                     movie.view_count,
                     movie.thumbnail_url,
                     'short'
@@ -212,7 +223,6 @@ def update_archives():
                     movie.title,
                     movie.view_count,
                     movie.thumbnail_url,
-                    'live'
                 )
             else:
                 upload_date = get_upload_date(movie.url)
@@ -221,6 +231,7 @@ def update_archives():
                     movie.url,
                     movie.title,
                     upload_date,
+                    archive.channel.channel_id,
                     movie.view_count,
                     movie.thumbnail_url,
                     'live'
@@ -241,7 +252,7 @@ def make_database():
     cur = conn.cursor()
     cur.execute(
         """CREATE TABLE IF NOT EXISTS movie(
-                id INTEGER PRIMARY KEY,
+                id STRING PRIMARY KEY,
                 url STRING,
                 title STRING,
                 date STRING,
@@ -310,10 +321,11 @@ def search_channel() -> List[scraper_const.ChannelInfo]:
     return records
 
 def insert_movie(
-    id:int,
+    id:str,
     url:str,
     title:str,
     date:str,
+    channel_id:str,
     view_count:int,
     thumbnail_url:str,
     movie_type:str
@@ -331,6 +343,7 @@ def insert_movie(
         "url":url,
         "title":title,
         "date":date,
+        "channel_id":channel_id,
         "view_count":view_count,
         "thumbnail_url":thumbnail_url,
         "movie_type":movie_type
@@ -368,12 +381,11 @@ def insert_channel(
     conn.close()
 
 def update_movie(
-    id:int,
+    id:str,
     url:str,
     title:str,
     view_count:int,
     thumbnail_url:str,
-    movie_type:str
 ):
     # データベースに接続する
     conn = sqlite3.connect(dbname)
@@ -383,10 +395,8 @@ def update_movie(
     UPDATE movie SET
         url = :url,
         title = :title,
-        channel_id = :channel_id,
         view_count = :view_count,
-        thumbnail_url = :thumbnail_url,
-        movie_type = :movie_type 
+        thumbnail_url = :thumbnail_url
     WHERE id = :id
     """
     args = {
@@ -394,8 +404,7 @@ def update_movie(
         "url":url,
         "title":title,
         "view_count":view_count,
-        "thumbnail_url":thumbnail_url,
-        "movie_type":movie_type
+        "thumbnail_url":thumbnail_url
     }
     
     cursor.execute(query,args)
