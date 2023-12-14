@@ -55,6 +55,9 @@ class UrlOption:
 class Database:
     def twitter_path(self) -> str:
         return os.path.join(_base_path,'database','twitter.db')
+
+    def youtube_path(self) -> str:
+        return os.path.join(_base_path,'database','youtube.db')
     
 
 # HoloName クラスは、ハッシュタグと URL のペアを表します。
@@ -218,7 +221,8 @@ class HoloMemoryRecord:
         return f"{self.title} - {self.member} - {self.link} - {self.date} - {self.memory} - {self.detail}"
 
 class ChannelInfo:
-    def __init__(self,channel_name,description,header_url,avatar_url):
+    def __init__(self,channel_id,channel_name,description,header_url,avatar_url):
+        self.channel_id = channel_id
         self.channel_name = channel_name
         self.description = description
         self.header_url = header_url
@@ -226,6 +230,7 @@ class ChannelInfo:
         
     def __str__(self):
         return f"""channel_name -> {self.channel_name}
+channel_id -> {self.channel_id}
 header_url -> {self.header_url}
 avatar_url -> {self.avatar_url}
 ---- description -----
@@ -234,6 +239,7 @@ avatar_url -> {self.avatar_url}
     
     def __dict__(self):
         return {
+            "channelId":self.channel_id,
             "channelName":self.channel_name,
             "description":self.description,
             "headerUrl":self.header_url,
@@ -242,30 +248,33 @@ avatar_url -> {self.avatar_url}
 
 
 class MovieInfo:
-    def __init__(self,index,id,url,title,view_count,thumbnail_url):
-        self.index = index
+    def __init__(self,id,url,title,date,view_count,thumbnail_url,movie_type):
         self.id = id
         self.url = url
         self.title = title
+        self.date = date
         self.view_count = view_count
         self.thumbnail_url = thumbnail_url
+        self.movie_type = movie_type
 
     def __str__(self):
-        return f"""index -> {str(self.index).zfill(4)}
-if -> {self.id}
+        return f"""if -> {self.id}
 url -> {self.url}
 title -> {self.title}
+date -> {self.date}
 view_count -> {self.view_count}
-thumbnail_url -> {self.thumbnail_url}"""
+thumbnail_url -> {self.thumbnail_url}
+movieType -> {self.movie_type}"""
     
     def __dict__(self):
         return {
-            "index":self.index,
             "id":self.id,
             "url":self.url,
             "title":self.title,
+            "date":self.date,
             "viewCount":self.view_count,
-            "thumbnailUrl":self.thumbnail_url
+            "thumbnailUrl":self.thumbnail_url,
+            "movieType":self.movie_type
         }
     
     
