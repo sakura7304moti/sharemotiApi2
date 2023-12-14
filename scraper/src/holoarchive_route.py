@@ -16,7 +16,7 @@ app = Blueprint('holoarchive',__name__)
 チャンネル情報の一覧
 """
 @app.route("/holoArchive/search/channel",methods=["GET"])
-def holomovie_archive():
+def holomovie_channel():
     records = holo_archive.search_channel()
     # 辞書にまとめる
     result = {
@@ -43,7 +43,7 @@ def holomovie_archive():
 動画情報の一覧
 """
 @app.route("/holoArchive/search/movie",methods=["GET"])
-def holomovie_archive():
+def holomovie_movie():
     records = holo_archive.search_movie()
     # 辞書にまとめる
     result = {
