@@ -274,7 +274,7 @@ movieType -> {self.movie_type}"""
             "url":self.url,
             "title":self.title,
             "date":self.date,
-            "channel_id":self.channel_id,
+            "channelId":self.channel_id,
             "viewCount":self.view_count,
             "thumbnailUrl":self.thumbnail_url,
             "movieType":self.movie_type
