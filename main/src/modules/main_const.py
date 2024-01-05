@@ -155,3 +155,15 @@ class SsbuNameRecord:#スマブラのキャラ名と画像URL
         self.url = url
     def __dict__(self):
         return {"name":self.name,"url":self.url}
+
+class KinshiListRecord:  # 禁止キャラ一覧
+    def __init__(self,id:int, char_name: str, ssbu_name: str,  desc: str,createAt:str,updateAt:str):
+        self.id = id
+        self.char_name = char_name
+        self.ssbu_name = ssbu_name
+        self.desc = desc
+        self.createAt = datetime.datetime.strptime(createAt,'%Y-%m-%d %H:%M:%S')
+        self.updateAt = datetime.datetime.strptime(updateAt,'%Y-%m-%d %H:%M:%S')
+
+    def __dict__(self):
+        return {"id":self.id, "charName": self.char_name, "ssbuName":self.ssbu_name, "desc": self.desc,"createAt":self.createAt.strftime('%Y-%m-%d %H:%M:%S'),"updateAt":self.updateAt.strftime('%Y-%m-%d %H:%M:%S')}

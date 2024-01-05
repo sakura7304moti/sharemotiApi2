@@ -15,6 +15,7 @@ from main.src import schoolList_route
 from main.src import mannerList_route
 from main.src import haikuList_route
 from main.src import imageList_route
+from main.src import kinshiList_route
 
 #file
 from file.src import karaokeList_route
@@ -46,6 +47,7 @@ app.register_blueprint(schoolList_route.app)
 app.register_blueprint(mannerList_route.app)
 app.register_blueprint(haikuList_route.app)
 app.register_blueprint(imageList_route.app)
+app.register_blueprint(kinshiList_route.app)
 #file
 app.register_blueprint(karaokeList_route.app)
 app.register_blueprint(radioList_route.app)
