@@ -12,8 +12,8 @@ NEW_LINE_TEXT = main_const.get_new_line_text()
 # Blueprintのオブジェクトを生成する
 app = Blueprint('kinshiList',__name__)
 
-# haikuListの初期設定
-haikuList.init()
+# kinshiListの初期設定
+kinshiList.init()
 
 
 @app.route("/kinshiList/search",methods=["GET"])
@@ -36,7 +36,7 @@ def kinshiList_search():
     json_data = json_data.replace(NEW_LINE_TEXT,'\\n')
     
     if len(records) == 0:
-        json_data = "[]"
+        json_data = "{records:[]}"
     response = jsonify(json_data)
     return response
 
