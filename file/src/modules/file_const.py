@@ -84,3 +84,17 @@ class SsbuNameRecord:#スマブラのキャラ名と画像URL
         self.url = url
     def __dict__(self):
         return {"name":self.name,"url":self.url}
+
+class MovieListRecord:#ボイス
+    def __init__(self,
+                 id:int,
+                 file_name:str,
+                 poster:str):
+        self.id = id
+        self.file_name = file_name
+        self.poster = poster
+        
+    def __dict__(self):
+        return {"id":self.id,"fileName":self.file_name,"poster":self.poster}
+    def __str__(self):
+        return f"ID: {self.id}, File Name: {self.file_name}, Poster: {self.poster}"
