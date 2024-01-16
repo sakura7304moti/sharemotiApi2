@@ -43,12 +43,12 @@ def namelist2_search():
 def namelist2_insert():
     json_data = request.json  # POSTメソッドで受け取ったJSONデータを取得
     name = json_data.get("name", "")
-    ssbu_name = json_data.get("ssbu_name", "")
+    ssbu_name = json_data.get("ssbuName", "")
 
     result = nameList2.insert(name, ssbu_name)
     # レスポンスとしてJSONデータを返す
     # JSON文字列に変換
-    json_data = json.dumps(result, ensure_ascii=False)
+    json_data = json.dumps(result.__dict__(), ensure_ascii=False)
     response = jsonify(json_data)
     return response
 
@@ -57,12 +57,12 @@ def namelist2_update():
     json_data = request.json  # POSTメソッドで受け取ったJSONデータを取得
     id = int(json_data.get("id","-1"))
     name = json_data.get("name", "")
-    ssbu_name = json_data.get("ssbu_name", "")
+    ssbu_name = json_data.get("ssbuName", "")
 
     result = nameList2.update(id, name, ssbu_name)
     # レスポンスとしてJSONデータを返す
     # JSON文字列に変換
-    json_data = json.dumps(result, ensure_ascii=False)
+    json_data = json.dumps(result.__dict__(), ensure_ascii=False)
     response = jsonify(json_data)
     return response
 

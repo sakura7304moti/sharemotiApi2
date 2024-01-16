@@ -96,33 +96,32 @@ def update(
     ssbu_name:str
 ):
     try:
-        if exists(name,ssbu_name):
-            # データベースに接続する
-            conn = sqlite3.connect(dbname)
-            cursor = conn.cursor()
-        
-            # 現在の日時を取得
-            current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        # データベースに接続する
+        conn = sqlite3.connect(dbname)
+        cursor = conn.cursor()
+    
+        # 現在の日時を取得
+        current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-            query = """
-                UPDATE nameList2 Set 
-                    name = :name, 
-                    ssbu_name = :ssbu_name, 
-                    update_at = :current_time
-                WHERE id = :id
-            """
-            args = {
-                "id" : id,
-                "name" : name,
-                "ssbu_name" : ssbu_name,
-                "current_time" : current_time
-            }
+        query = """
+            UPDATE nameList2 Set 
+                name = :name, 
+                ssbu_name = :ssbu_name, 
+                update_at = :current_time
+            WHERE id = :id
+        """
+        args = {
+            "id" : id,
+            "name" : name,
+            "ssbu_name" : ssbu_name,
+            "current_time" : current_time
+        }
 
-            cursor.execute(query, args)
-            # 変更をコミットし、接続を閉じる
-            conn.commit()
-            conn.close()
-            return main_const.DbResult(True,"")
+        cursor.execute(query, args)
+        # 変更をコミットし、接続を閉じる
+        conn.commit()
+        conn.close()
+        return main_const.DbResult(True,"")
 
     except Exception as e:
         err_text = str(e)
