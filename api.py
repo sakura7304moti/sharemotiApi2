@@ -10,6 +10,7 @@ Blueprint import
 #main
 from main.src import wordList2_route
 from main.src import nameList_route
+from main.src import nameList2_route
 from main.src import yakiList_route
 from main.src import schoolList_route
 from main.src import mannerList_route
@@ -43,6 +44,7 @@ register blueprint
 #main
 app.register_blueprint(wordList2_route.app)
 app.register_blueprint(nameList_route.app)
+app.register_blueprint(nameList2_route.app)
 app.register_blueprint(yakiList_route.app)
 app.register_blueprint(schoolList_route.app)
 app.register_blueprint(mannerList_route.app)

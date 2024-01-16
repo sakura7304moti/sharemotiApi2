@@ -167,3 +167,39 @@ class KinshiListRecord:  # 禁止キャラ一覧
 
     def __dict__(self):
         return {"id":self.id, "charName": self.char_name, "ssbuName":self.ssbu_name, "desc": self.desc,"createAt":self.createAt.strftime('%Y-%m-%d %H:%M:%S'),"updateAt":self.updateAt.strftime('%Y-%m-%d %H:%M:%S')}
+
+class NameList2Record:  #あだ名一覧2
+    def __init__(
+        self,
+        id:int,
+        name:str,
+        ssbu_name:str,
+        create_at:str,
+        update_at:str
+                ):
+        self.id = id
+        self.name = name
+        self.ssbu_name = ssbu_name
+        self.create_at = create_at
+        self.update_at = update_at
+
+    def __str__(self):
+        return f"NameList2Record(id={self.id}, name='{self.name}', ssbu_name='{self.ssbu_name}', create_at='{self.create_at}', update_at='{self.update_at}')"
+        
+    def __dict__(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'ssbuName': self.ssbu_name,
+            'createAt': self.create_at,
+            'updateAt': self.update_at
+        }
+
+
+class DbResult:#追加・更新の結果
+    def __init__(self,success:bool,errorText:str):
+        self.success = success
+        self.errorText = errorText
+    
+    def __dict__(self):
+        return {"success":self.success,"errorText":self.errorText}
