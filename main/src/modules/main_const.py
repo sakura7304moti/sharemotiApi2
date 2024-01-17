@@ -195,6 +195,30 @@ class NameList2Record:  #あだ名一覧2
             'updateAt': self.update_at
         }
 
+class YakiList2Record:  #焼き直し条約2
+    def __init__(
+        self,
+        id:int,
+        word:str,
+        yaki:str,
+        create_at:str,
+        update_at:str
+                ):
+        self.id = id
+        self.word = word
+        self.yaki = yaki
+        self.create_at = create_at
+        self.update_at = update_at
+
+    def __dict__(self):
+        return {
+            'id': self.id,
+            'word': self.word,
+            'yaki': self.yaki,
+            'createAt': self.create_at,
+            'updateAt': self.update_at
+        }
+
 
 class DbResult:#追加・更新の結果
     def __init__(self,success:bool,errorText:str):
