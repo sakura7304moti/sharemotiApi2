@@ -58,7 +58,8 @@ def get_original_songs() -> list[scraper_const.SongQueryRecord]:
         if len(youtube_link) > 0:
             youtube_url = youtube_link[0]['href']
             rec = scraper_const.SongQueryRecord(release_date,members,youtube_url,title,'')
-            records.append(rec)
+            if youtube_url != 'https://www.youtube.com/watch?v=VKyEVCPEV6c':
+                records.append(rec)
     return records
 
 def get_memory_movies() -> list[scraper_const.HoloMemoryRecord]:
