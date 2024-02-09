@@ -4,7 +4,7 @@ twitterのルーティング
 import json
 import math
 from flask import Blueprint, request, jsonify
-from scraper.src.modules import twitter
+from scraper.src.modules import twitter_sqlite
 from scraper.src.modules import scraper_const
 
 #改行文字を取得
@@ -31,12 +31,12 @@ def nitter_search():
     max_like = json_data.get("max_like", 0)
 
     # search()関数を呼び出し
-    records = twitter.search(
+    records = twitter_sqlite.search(
         page_no, page_size, hashtag, start_date, end_date, user_name,mode, min_like, max_like
     )
 
     # search_count()関数を呼び出し
-    count = twitter.search_count(
+    count = twitter_sqlite.search_count(
         hashtag, start_date, end_date, user_name,mode, min_like, max_like
     )
     totalPages = math.ceil(count / page_size)
@@ -78,7 +78,7 @@ def nitter_search_count_handler():
     max_like = json_data.get("max_like", 0)
 
     # search_count()関数を呼び出し
-    count = twitter.search_count(
+    count = twitter_sqlite.search_count(
         hashtag, start_date, end_date, user_name,mode, min_like, max_like
     )
 

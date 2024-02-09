@@ -44,6 +44,12 @@ def channel_list():
 def archive_dict_path():
     return os.path.join(_base_path,'options','archive_dict.json')
 
+#twitterのbaseハッシュタグ一覧
+def twitter_base_hashtags():
+    path = os.path.join(_base_path,'options','twitter_base_hashtags.csv')
+    df = pd.read_csv(path)
+    return df['hashtag']
+
 #URLまとめ
 class UrlOption:
     def __init__(self):

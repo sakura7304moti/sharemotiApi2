@@ -1,4 +1,5 @@
 import sqlite3
+import re
 from . import scraper_const
 
 database = scraper_const.Database()
@@ -163,3 +164,121 @@ def search_count(
     results = cursor.fetchall()
 
     return results[0][0]
+
+def update(df,hashtag:str,mode:str):
+    """
+    UPDATE 
+    """
+    # 正規表現パターン
+    pattern = r'[\'"\[\]]'
+
+    # データベースに接続する
+    conn = sqlite3.connect(dbname)
+    cursor = conn.cursor()
+    
+    # レコードの存在をチェックするためのクエリを作成する
+    check_query = f"SELECT * FROM twitter WHERE hashtag = '{hashtag}'"
+
+    # クエリを実行して結果を取得する
+    cursor.execute(check_query)
+    result = cursor.fetchall()
+
+    #hashtag + URL のリストを作成
+    if result is None:
+        hash_list = []
+        url_list = []
+    else:
+        hash_list = [r[0]+r[2] for r in result]
+        url_list = [r[2] for r in result]
+    
+    for index,row in df.iterrows():
+
+        #要素の取得
+        url = row['url']
+        date = row['date'].strftime("%Y-%m-%d")
+        #date = date.split(' ')[0]
+        images = str(row['images'])
+        images = re.sub(pattern,'',images)
+        userId = row['userId']
+        userName = row['userName']
+        try:
+            userName = re.sub(pattern,'',userName)
+        except:
+            userName = ''
+        likeCount = int(row['likeCount'])
+        
+        # レコードが存在しない場合は追加、存在する場合は更新する
+        #if hashtag + url not in hash_list:
+        if url not in url_list:    
+            # レコードを追加するクエリを作成する
+            insert_query = f"""
+                INSERT INTO twitter (hashtag,mode,url,date,images,userId,userName,likeCount) 
+                VALUES (:hashtag,:mode,:url,:date,:images,:userId,:userName,:likeCount)"""
+            args = {
+                'hashtag':hashtag,
+                'mode':mode,
+                'url':url,
+                'date':date,
+                'images':images,
+                'userId':userId,
+                'userName':userName,
+                'likeCount':likeCount
+            }
+            # レコードを追加する
+            cursor.execute(insert_query,args)
+        else:
+            # レコードを追加するクエリを作成する
+            update_query = f"""
+            UPDATE twitter SET
+                hashtag = :hashtag,
+                mode = :mode,
+                url = :url,
+                date = :date,
+                images = :images,
+                userId = :userId,
+                userName = :userName,
+                likeCount = :likeCount
+            WHERE url = :url"""
+            args = {
+                'hashtag':hashtag,
+                'mode':mode,
+                'url':url,
+                'date':date,
+                'images':images,
+                'userId':userId,
+                'userName':userName,
+                'likeCount':likeCount
+            }
+            # レコードを更新する
+            cursor.execute(update_query,args)
+        
+    # 変更をコミットし、接続を閉じる
+    conn.commit()
+    conn.close()
+
+
+    #重複したレコードを削除する(とりあえずの対処)
+    remove_duplicates()
+
+"""
+UNIQUE DELETE
+"""
+def remove_duplicates():
+    # データベースに接続する
+    conn = sqlite3.connect(dbname)
+    cursor = conn.cursor()
+
+    # 重複をチェックして削除するクエリを実行
+    query = """
+    DELETE FROM twitter
+    WHERE rowid NOT IN (
+        SELECT MIN(rowid) 
+        FROM twitter 
+        GROUP BY url, hashtag
+    )
+    """
+    cursor.execute(query)
+
+    # 変更をコミットし、接続を閉じる
+    conn.commit()
+    conn.close()
