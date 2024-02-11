@@ -36,7 +36,7 @@ def movielist_search():
 
 @app.route('/movieList/download',methods=['GET'])
 def movielist_download():
-    id = int(request.args.get('id',-1))
-    rec = movieList.select(id)
+    poster = request.args.get('poster',"")
+    file_name = request.args.get('fileName',"")
     path = os.path.join(DATA_PATH,'movie',rec.poster,rec.file_name+'.mp4')
     return send_file(path , mimetype='video/mp4')
