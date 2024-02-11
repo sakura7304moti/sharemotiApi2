@@ -16,7 +16,7 @@ def search():
     records = []
     for path in path_list:
         id = path_list.index(path)
-        file_name = os.path.basename(path).split('.')[0]
+        file_name = file_name = ''.join(os.path.basename(path).split('.')[:-1])
         poster = os.path.basename(os.path.dirname(path))
         rec = file_const.MovieListRecord(id,file_name,poster)
         records.append(rec)
@@ -30,7 +30,7 @@ def select(select_id:int):
     for path in path_list:
         id = path_list.index(path)
         if id == select_id:
-            file_name = os.path.basename(path).split('.')[0]
+            file_name = ''.join(os.path.basename(path).split('.')[:-1])
             poster = os.path.basename(os.path.dirname(path))
             rec = file_const.MovieListRecord(id,file_name,poster)
             break
