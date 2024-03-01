@@ -1,9 +1,15 @@
 import sqlite3
-from typing import List
 import yt_dlp
-from tqdm import tqdm
 import datetime
+import math
+
+
+from typing import List
+from tqdm import tqdm
+
+
 from . import scraper_const
+
 
 channel_url_list = scraper_const.channel_list()
 
@@ -282,24 +288,121 @@ def make_database():
     conn.commit()
     conn.close()
 
-def search_movie() -> List[scraper_const.MovieInfo]:
+def search_movie(
+    page_no = 1,
+    page_size = 20,
+    title = '',
+    from_date = '',
+    to_date = '',
+    channel_id = '',
+    movie_type = ''
+) -> List[scraper_const.MovieInfo]:
     # データベースに接続する
     conn = sqlite3.connect(dbname)
     cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM movie")
+    # SELECTクエリを実行
+    query,args = search_query_args(
+        page_size = page_size,
+        page_no = page_no,
+        title = title,
+        from_date = from_date,
+        to_date = to_date,
+        channel_id = channel_id,
+        movie_type = movie_type
+    )
+    cursor.execute(query,args)
     results = cursor.fetchall()
-
+    
     # 接続を閉じる
     conn.close()
 
-    # 結果をまとめる
+    # 結果を表示
     records = []
     for row in results:
         rec = scraper_const.MovieInfo(*row)
         records.append(rec)
-    
+
     return records
+
+def search_movie_count(
+    page_size = 0,
+    title = '',
+    from_date = '',
+    to_date = '',
+    channel_id = '',
+    movie_type = ''
+):
+    """
+    ページ数を取得する
+    """
+    query,args = search_query_args(
+        1,
+        0,
+        title,
+        from_date,
+        to_date,
+        channel_id,
+        movie_type
+    )# page_no = 1 , page_size = 0(max)
+    
+    # データベースに接続する
+    conn = sqlite3.connect(dbname)
+    cursor = conn.cursor()
+
+    #件数のみ取得
+    count_query = f'select count(*) from ({query})'
+    cursor.execute(count_query,args)
+    results = cursor.fetchall()
+    conn.close()
+
+    count = results[0][0]
+    page_count = math.floor(count/page_size)
+
+    return page_count
+
+def search_query_args(
+    page_no = 1,
+    page_size = 20,
+    title = '',
+    from_date = '',
+    to_date = '',
+    channel_id = '',
+    movie_type = ''
+):
+    """
+    検索に使用する。クエリとargsを取得。
+    """
+    #ページング設定
+    offset = (max(page_no - 1,0))*page_size 
+    
+    query = "SELECT * FROM movie where 1 = 1 "
+    if title != '':
+        query = query + "and title like :title "
+    if from_date != '':
+        query = query + "and date >= :from_date "
+    if to_date != '':
+        query = query + "and date <= :to_date "
+    if channel_id != '':
+        query = query + "and channel_id = :channel_id "
+    if movie_type != '':
+        query = query + "and movie_type = :movie_type "
+    
+    query = query + "order by date desc,title "
+    
+    if page_size != 0:
+        query = query + "limit :page_size offset :offset "
+    
+    args = {
+        'title' : f'%{title}%',
+        'from_date' : from_date,
+        'to_date' : to_date,
+        'channel_id' : channel_id,
+        'movie_type' : movie_type,
+        'page_size' : page_size,
+        'offset' : offset
+    }
+    return query , args
 
 def search_channel() -> List[scraper_const.ChannelInfo]:
     # データベースに接続する

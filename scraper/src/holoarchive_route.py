@@ -2,7 +2,7 @@
 ホロライブのアーカイブのスクレイピング
 """
 import json
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from scraper.src.modules import holo_archive
 from scraper.src.modules import scraper_const
 
@@ -42,14 +42,39 @@ def holomovie_channel():
 """
 動画情報の一覧
 """
-@app.route("/holoArchive/search/movie",methods=["GET"])
+@app.route("/holoArchive/search/movie",methods=["POST"])
 def holomovie_movie():
-    records = holo_archive.search_movie()
+    json_data = request.json  # POSTメソッドで受け取ったJSONデータを取得
+    # JSONデータから必要なパラメータを抽出
+    page_no = json_data.get("pageNo", 1)
+    page_size = json_data.get("pageSize", 20)
+    title = json_data.get("title", "")
+    from_date = json_data.get("fromDate", "")
+    to_date = json_data.get("toDate", "")
+    channel_id = json_data.get("channelId", "")
+    movie_type = json_data.get("movieType","")
+
+    
+    records = holo_archive.search_movie(
+        page_no,page_size,
+        title,
+        from_date,to_date,
+        channel_id,
+        movie_type
+    )
+    total_pages = holo_archive.search_movie_count(
+        page_size,
+        title,
+        from_date,to_date,
+        channel_id,
+        movie_type
+    )
     # 辞書にまとめる
     result = {
         "records": json.dumps(
             records, default=lambda obj: obj.__dict__(), ensure_ascii=False
-        )
+        ),
+        "totalPages": total_pages
     }
     # レスポンスとしてJSONデータを返す
     # JSON文字列に変換
