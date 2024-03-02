@@ -26,6 +26,7 @@ from file.src import ssbuList_route
 from file.src import voiceList_route
 from file.src import support_route
 from file.src import movieList_route
+from file.src import obaRadioList_route
 
 #scraper
 from scraper.src import twitter_route
@@ -60,6 +61,7 @@ app.register_blueprint(ssbuList_route.app)
 app.register_blueprint(voiceList_route.app)
 app.register_blueprint(support_route.app)
 app.register_blueprint(movieList_route.app)
+app.register_blueprint(obaRadioList_route.app)
 #scraper
 app.register_blueprint(twitter_route.app)
 app.register_blueprint(holosong_route.app)

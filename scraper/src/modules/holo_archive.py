@@ -438,7 +438,7 @@ def insert_movie(
     cursor = conn.cursor()
 
     query = """
-    INSERT INTO movie (id, url, title, date, channel_id, view_count, thumbnail_url, movie_type) 
+    INSERT OR IGNORE INTO movie (id, url, title, date, channel_id, view_count, thumbnail_url, movie_type) 
                VALUES (:id, :url, :title, :date, :channel_id, :view_count, :thumbnail_url, :movie_type)
     """
     args = {
