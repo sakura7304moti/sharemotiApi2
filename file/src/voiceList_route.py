@@ -44,5 +44,5 @@ def voicelist_search():
 def voicelist_download():
     id = int(request.args.get('id',-1))
     rec = voiceList.select(id)
-    path = os.path.join(DATA_PATH,'voice',rec.file_name+'.mp3')
+    path = os.path.join(DATA_PATH,'ボイス',rec.file_name+'.mp3')
     return send_file(path , mimetype='audio/mpeg')

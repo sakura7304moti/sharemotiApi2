@@ -44,5 +44,5 @@ def karaokelist_search():
 def karaokelist_download():
     id = int(request.args.get('id',-1))
     rec = karaokeList.select(id)
-    path = os.path.join(DATA_PATH,'karaoke',rec.date,rec.file_name+'.mp3')
+    path = os.path.join(DATA_PATH,'カラオケ','音声のみ',rec.date,rec.file_name+'.mp3')
     return send_file(path , mimetype='audio/mpeg')

@@ -12,7 +12,7 @@ DATA_PATH = file_const.get_data_path()
 クリップの一覧を取得
 """
 def search():
-    path_list = glob.glob(os.path.join(DATA_PATH,'ssbu','*','*','*.mp4'))
+    path_list = glob.glob(os.path.join(DATA_PATH,'スマブラ','切り抜き','*','*','*.mp4'))
     records = []
     for path in path_list:
         id = path_list.index(path)
@@ -29,7 +29,7 @@ def search():
 IDをもとに動画の要素を取得
 """
 def select(select_id:int):
-    path_list = glob.glob(os.path.join(DATA_PATH,'ssbu','*','*','*.mp4'))
+    path_list = glob.glob(os.path.join(DATA_PATH,'スマブラ','切り抜き','*','*','*.mp4'))
     for path in path_list:
         id = path_list.index(path)
         if id == select_id:

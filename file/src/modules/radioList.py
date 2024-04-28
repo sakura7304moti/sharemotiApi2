@@ -14,7 +14,7 @@ DATA_PATH = file_const.get_data_path()
 音声の一覧を取得
 """
 def search():
-    path_list = glob.glob(os.path.join(DATA_PATH,'radio','mp3','*.mp3'))
+    path_list = glob.glob(os.path.join(DATA_PATH,'オムコレイディオ','mp3','*.mp3'))
     records = []
     for path in path_list:
         id = path_list.index(path)
@@ -39,7 +39,7 @@ def search():
 IDをもとに動画の要素を取得
 """
 def select(select_id:int):
-    path_list = glob.glob(os.path.join(DATA_PATH,'radio','mp3','*.mp3'))
+    path_list = glob.glob(os.path.join(DATA_PATH,'オムコレイディオ','mp3','*.mp3'))
     for path in path_list:
         id = path_list.index(path)
         if id == select_id:

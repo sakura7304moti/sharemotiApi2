@@ -38,5 +38,5 @@ def movielist_search():
 def movielist_download():
     poster = request.args.get('poster',"")
     file_name = request.args.get('fileName',"")
-    path = os.path.join(DATA_PATH,'movie',poster,file_name+'.mp4')
+    path = os.path.join(DATA_PATH,'完成品',poster,file_name+'.mp4')
     return send_file(path , mimetype='video/mp4')

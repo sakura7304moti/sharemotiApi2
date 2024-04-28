@@ -38,5 +38,5 @@ def ssbulist_search():
 def ssbulist_download():
     id = int(request.args.get('id',-1))
     rec = ssbuList.select(id)
-    path = os.path.join(DATA_PATH,'ssbu',rec.year,rec.date,rec.file_name+'.mp4')
+    path = os.path.join(DATA_PATH,'スマブラ','切り抜き',rec.year,rec.date,rec.file_name+'.mp4')
     return send_file(path , mimetype='video/mp4')

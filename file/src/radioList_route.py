@@ -44,5 +44,5 @@ def radiolist_search():
 def radiolist_download():
     id = int(request.args.get('id',-1))
     rec = radioList.select(id)
-    path = os.path.join(DATA_PATH,'radio','mp3',rec.file_name+'.mp3')
+    path = os.path.join(DATA_PATH,'オムコレイディオ','mp3',rec.file_name+'.mp3')
     return send_file(path , mimetype='audio/mpeg')
