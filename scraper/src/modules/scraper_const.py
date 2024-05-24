@@ -50,6 +50,15 @@ def twitter_base_hashtags():
     df = pd.read_csv(path)
     return df['hashtag']
 
+#hololewdのメンバー一覧
+def hololewd_flair_texts():
+    path = hololwed_flair_path()
+    df = pd.read_csv(path)
+    return df['flair_text'].tolist()
+
+def hololwed_flair_path():
+    return os.path.join(_base_path,'options','hololewd_flair_texts.csv')
+
 #URLまとめ
 class UrlOption:
     def __init__(self):
@@ -64,6 +73,9 @@ class Database:
 
     def youtube_path(self) -> str:
         return os.path.join(_base_path,'database','youtube.db')
+
+    def hololewd_path(self) -> str:
+        return os.path.join(_base_path,'database','hololewd.db')
     
 
 # HoloName クラスは、ハッシュタグと URL のペアを表します。
@@ -300,4 +312,30 @@ class Archive:
             "movie": [m.__dict__() for m in self.movie],
             "live": [l.__dict__() for l in self.live],
             "short": [s.__dict__() for s in self.short]
+        }
+    
+#hololewdのテーブル
+class HololewdQueryRecord:
+    def __init__(
+        self,
+        flair_text:str,
+        url:str,
+        date:str,
+        score:int
+    ):
+        self.flair_text = flair_text
+        self.url = url
+        self.date = date
+        self.score = score
+
+    def __str__(self):
+        return (f"HololewdTable(flair_text='{self.flair_text}', "
+                f"url='{self.url}', date='{self.date}', score={self.score})")
+
+    def __dict__(self):
+        return {
+            'flairText': self.flair_text,
+            'url': self.url,
+            'date': self.date,
+            'score': self.score
         }
