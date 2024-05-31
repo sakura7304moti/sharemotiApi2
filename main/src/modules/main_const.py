@@ -35,8 +35,8 @@ def ssbu_names():
     for index, row in df.iterrows():
         name = row["name"]
         url = row["url"]
-        small_url = row["small_url"]
-        rec = SsbuNameRecord(name,url,small_url)
+        icon = row["icon"]
+        rec = SsbuNameRecord(name,url,icon)
         records.append(rec)
     return records
 
@@ -151,12 +151,12 @@ class ImageListStatusResult:#画像の追加結果
         return {"success":self.success,"errorText":self.errorText}
     
 class SsbuNameRecord:#スマブラのキャラ名と画像URL
-    def __init__(self,name:str,url:str,small_url:str):
+    def __init__(self,name:str,url:str,icon:str):
         self.name = name
         self.url = url
-        self.small_url = small_url
+        self.icon = icon
     def __dict__(self):
-        return {"name":self.name,"url":self.url,"smallUrl":self.small_url}
+        return {"name":self.name,"url":self.url,"icon":self.icon}
 
 class KinshiListRecord:  # 禁止キャラ一覧
     def __init__(self,id:int, char_name: str, ssbu_name: str,  desc: str,createAt:str,updateAt:str):
