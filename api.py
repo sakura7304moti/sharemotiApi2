@@ -35,6 +35,9 @@ from scraper.src import holomovie_route
 from scraper.src import holoarchive_route
 from scraper.src import hololewd_route
 
+#sub
+from sub.src import rembg_route
+
 """
 Flask run
 """
@@ -69,6 +72,8 @@ app.register_blueprint(holosong_route.app)
 app.register_blueprint(holomovie_route.app)
 app.register_blueprint(holoarchive_route.app)
 app.register_blueprint(hololewd_route.app)
+#sub
+app.register_blueprint(rembg_route.app)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=False)
