@@ -2,7 +2,7 @@ import json
 import os
 from flask import Blueprint, flash, jsonify, request, send_file
 from PIL import Image
-from rembg import remove
+from rembg import remove, new_session
 import io
 import glob
 from sub.src.modules import sub_const
@@ -50,6 +50,48 @@ def remove_bg():
             return {"error": str(e)}, 400
 
     output_image = remove(input_image)
+
+    output_buffer = io.BytesIO()
+    output_image.save(output_buffer, format="PNG")
+    output_buffer.seek(0)
+
+    #一時ファイルに保存
+
+    tm_nm = tmp_name(os.path.splitext(file.filename)[0] + '.png')
+    print(f"file name {tm_nm}")
+    output_image.save(tm_nm)
+
+    return tm_nm
+
+@app.route('/rembg/anime', methods=['POST'])
+def remove_bg_anime():
+    #if 'image' not in request.form.keys:
+    #    print('Log1')
+    #    return {"error": "No image file provided"}, 400
+
+    if 'file' not in request.files:
+        flash('No file part')
+        jsondata = {"fileName":''}
+        response = jsonify(jsondata)
+        return response
+    file = request.files['file']
+    # If the user does not select a file, the browser submits an
+    # empty file without a filename.
+    if file.filename == '':
+        print('No selected file')
+        jsondata = {"fileName":''}
+        response = jsonify(jsondata)
+        return response
+
+    # 画像形式をチェック
+    if file and allowed_file(file.filename):
+        try:
+            input_image = Image.open(file.stream)
+        except Exception as e:
+            return {"error": str(e)}, 400
+        
+    my_session = new_session(model_name="isnet-anime")
+    output_image = remove(input_image, session=my_session)
 
     output_buffer = io.BytesIO()
     output_image.save(output_buffer, format="PNG")
